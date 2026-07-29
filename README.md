@@ -1,6 +1,6 @@
-# 💰 Personal Expense Tracker
+# 💰 Personal Expense Manager
 
-A modern and responsive **Personal Expense Tracker** built using **HTML, CSS, and JavaScript**. This application helps users manage their daily finances by tracking income, expenses, budgets, savings, and financial insights through a clean and user-friendly interface.
+A modern and responsive **Personal Expense Manager** built using **HTML, CSS, and JavaScript**. This application helps users manage their daily finances by tracking income, expenses, budgets, savings, and financial insights through a clean and user-friendly interface.
 
 ---
 
@@ -78,7 +78,7 @@ git clone https://github.com/your-username/personal-expense-tracker.git
 
 ## 🌐 Live Demo
 
-Coming Soon...
+prsonal-expense-manager.netlify.app
 
 ---
 
