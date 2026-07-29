@@ -90,7 +90,7 @@ Screenshots will be added after deployment.
 
 ## 👨‍💻 Developer
 
-**Muzamil Khan**
+**Muzamil Hassan**
 
 BS Software Engineering Student
 
