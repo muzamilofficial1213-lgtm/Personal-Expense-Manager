@@ -1,98 +1,226 @@
 # 💰 Personal Expense Manager
 
-A modern and responsive **Personal Expense Manager** built using **HTML, CSS, and JavaScript**. This application helps users manage their daily finances by tracking income, expenses, budgets, savings, and financial insights through a clean and user-friendly interface.
+A modern, feature-rich **Personal Expense Manager** built using **HTML, CSS, and JavaScript**.
+
+Designed with a premium FinTech-inspired interface, the application helps users manage their monthly budget, track expenses, record income, monitor spending habits, and visualize financial insights through an intuitive dashboard.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- 🔐 User Login & Signup
-- 👤 Guest Mode
-- 🔒 PIN Lock Security
-- 💵 Add Income & Expenses
-- 📊 Interactive Dashboard
-- 📅 Calendar View
-- 🎯 Savings Goal Tracking
-- 📈 Spending Statistics
-- 🌙 Light & Dark Theme
-- 📤 Export Data (CSV)
-- ⚙️ Settings & Custom Categories
-- 💾 Local Storage Support (Data remains saved in the browser)
+### 🔐 Authentication
+
+- Splash Screen
+- Login
+- Signup
+- Guest Mode
+- PIN Lock Security
+- User Profile Setup
 
 ---
 
-## 🛠️ Technologies Used
+### 👤 User Profile
+
+- Custom Display Name
+- Avatar Selection
+- Multiple Currency Support
+- Monthly Budget Setup
+- Savings Goal
+
+---
+
+### 💸 Transaction Management
+
+#### Expense Management
+
+- Add Expense
+- Edit Expense
+- Delete Expense
+- Search Expenses
+- Filter by Category
+- Sort Transactions
+- Expense History
+
+#### Income Management
+
+- Add Income
+- Multiple Income Sources
+- Income History
+- Automatic Balance Update
+
+---
+
+### 📊 Smart Dashboard
+
+- Monthly Budget
+- Total Income
+- Total Expenses
+- Available Balance
+- Spending Progress
+- Spending Score
+- Daily Average
+- Savings Goal Progress
+- Spending Forecast
+- Daily Motivational Quotes
+- Quick Actions
+
+---
+
+### 📈 Statistics
+
+- Weekly Analysis
+- Monthly Analysis
+- All-Time Analysis
+- Category Breakdown
+- Spending Trends
+- Weekly Comparison
+- Biggest Spending Day
+- Budget Insights
+- Category Charts
+
+---
+
+### 📅 Calendar
+
+- Monthly Calendar View
+- Daily Expense Tracking
+- Day-wise Transaction Details
+
+---
+
+### ⚙️ Settings
+
+- Edit Profile
+- Change Currency
+- Change Budget
+- Savings Goal
+- Custom Categories
+- Category Budgets
+- PIN Management
+- Theme Switching
+- Notifications
+
+---
+
+### 📂 Data Management
+
+- Export CSV
+- Print Summary
+- Share via WhatsApp
+- Monthly History
+- Reset All Data
+
+---
+
+### 🎨 User Experience
+
+- Responsive Design
+- Dark Mode
+- Light Mode
+- Modern Glassmorphism UI
+- Smooth Animations
+- Beautiful SVG Illustrations
+- Toast Notifications
+- Mobile Friendly
+
+---
+
+## 🚀 Technologies Used
 
 - HTML5
 - CSS3
 - JavaScript (ES6)
 - Local Storage API
+- SVG Graphics
+- Font Awesome Icons
+- Google Fonts
 
 ---
 
-## 📂 Project Structure
+## 🧠 Financial Logic
 
-```
-personal-expense-tracker/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
+The application follows a simple and practical budgeting model.
+
+Monthly Budget
+→ Planned spending limit.
+
+Income
+→ New money received (Salary, Pocket Money, Scholarship, Gift, Freelancing, etc.)
+
+Expenses
+→ Money spent.
+
+Available Balance
+
+Balance = Budget + Income − Expenses
+
+This makes it easier to understand how much money is actually available throughout the month.
 
 ---
 
-## 🎯 Purpose
+## 📱 Application Modules
 
-The purpose of this project is to provide a simple and efficient solution for managing personal finances. It is designed for **students, individuals, professionals, and families**, allowing users to monitor their income, expenses, savings, and budgets in one place.
+- Splash Screen
+- Authentication
+- PIN Security
+- Dashboard
+- Add Transactions
+- History
+- Statistics
+- Calendar
+- Settings
 
 ---
 
-## 🔮 Future Improvements
+## 🌟 Upcoming Improvements
 
+The following improvements are planned for future updates:
+
+- Improved Add Expense / Add Income workflow
+- Better transaction switching using tabs
+- Premium Income UI redesign
+- Undo option after Reset Data
+- Smarter financial insights
+- Better Statistics visualization
+- Annual Reports
+- Cloud Backup
 - Firebase Authentication
-- Cloud Database (Firestore)
-- Multi-Device Data Synchronization
-- Expense Analytics & Charts
-- PDF Report Export
-- Push Notifications
-- AI-Based Spending Insights
-- Progressive Web App (PWA)
-
----
-
-## 💻 Installation
-
-1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/personal-expense-tracker.git
-```
-
-2. Open the project folder.
-
-3. Run `index.html` in your browser.
-
----
-
-## 🌐 Live Demo
-
-prsonal-expense-manager.netlify.app
+- Multi-device Synchronization
 
 ---
 
 ## 📸 Screenshots
 
-Screenshots will be added after deployment.
 
+## 📸 Screenshots
+
+### 🌟 Splash Screen
+![Splash Screen](splash-screen.png)
+
+### 🔐 Login
+![Login Screen](login-screen.png)
+
+### 🏠 Dashboard
+![Dashboard](dashboard.png)
+
+### 💸 Add Expense
+![Add Expense](add-expense.png)
+
+### 📊 Statistics
+![Statistics](statistics.png)
+
+### 📅 Calendar
+![Calendar](calendar.png)
+
+### ⚙️ Settings
+![Settings](settings.png)
 ---
 
 ## 👨‍💻 Developer
 
 **Muzamil Hassan**
 
-BS Software Engineering Student
+BS Software Engineering
 
 Pak-Austria Fachhochschule: Institute of Applied Sciences and Technology (PAF-IAST)
 
@@ -100,4 +228,4 @@ Pak-Austria Fachhochschule: Institute of Applied Sciences and Technology (PAF-IA
 
 ## 📄 License
 
-This project is created for learning, portfolio, and educational purposes.
+This project is created for educational, learning, and portfolio purposes.

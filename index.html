@@ -161,9 +161,9 @@
       <button class="key" onclick="pinInput('7')">7</button>
       <button class="key" onclick="pinInput('8')">8</button>
       <button class="key" onclick="pinInput('9')">9</button>
-      <button class="key key-clear" onclick="pinClear()"><i class="fa fa-times"></i></button>
+      <button class="key key-clear" onclick="pinClear()" aria-label="Clear PIN"><i class="fa fa-times" aria-hidden="true"></i></button>
       <button class="key" onclick="pinInput('0')">0</button>
-      <button class="key key-del" onclick="pinDelete()"><i class="fa fa-backspace"></i></button>
+      <button class="key key-del" onclick="pinDelete()" aria-label="Delete last digit"><i class="fa fa-backspace" aria-hidden="true"></i></button>
     </div>
     <button class="btn-link" onclick="showSection('welcome')">Use different account</button>
   </div>
@@ -251,9 +251,9 @@
         <button class="key" onclick="setupPinInput('7')">7</button>
         <button class="key" onclick="setupPinInput('8')">8</button>
         <button class="key" onclick="setupPinInput('9')">9</button>
-        <button class="key key-clear" onclick="setupPinClear()"><i class="fa fa-times"></i></button>
+        <button class="key key-clear" onclick="setupPinClear()" aria-label="Clear PIN"><i class="fa fa-times" aria-hidden="true"></i></button>
         <button class="key" onclick="setupPinInput('0')">0</button>
-        <button class="key key-del" onclick="setupPinDelete()"><i class="fa fa-backspace"></i></button>
+        <button class="key key-del" onclick="setupPinDelete()" aria-label="Delete last digit"><i class="fa fa-backspace" aria-hidden="true"></i></button>
       </div>
       <div class="setup-nav">
         <button class="btn-ghost" onclick="setupNext(2)"><i class="fa fa-arrow-left"></i> Back</button>
@@ -286,11 +286,11 @@
       </div>
     </div>
     <div class="header-right">
-      <button class="icon-btn" onclick="toggleHideAmounts()" title="Hide amounts">
-        <i class="fa fa-eye" id="hide-icon"></i>
+      <button class="icon-btn" onclick="toggleHideAmounts()" title="Hide amounts" aria-label="Hide amounts">
+        <i class="fa fa-eye" id="hide-icon" aria-hidden="true"></i>
       </button>
-      <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
-        <i class="fa fa-moon" id="theme-icon"></i>
+      <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark mode">
+        <i class="fa fa-moon" id="theme-icon" aria-hidden="true"></i>
       </button>
     </div>
   </header>
@@ -420,16 +420,19 @@
           <span>Add Expense</span>
         </button>
         <button class="action-btn green" onclick="openAddIncome()">
-          <i class="fa fa-arrow-down-circle"></i>
+          <i class="fa fa-arrow-circle-down"></i>
           <span>Add Income</span>
         </button>
       </div>
 
-      <!-- Badges Row -->
-      <div class="badges-section">
-        <h3>Your Badges</h3>
+      <!-- Badges Row (collapsible to keep dashboard focused) -->
+      <details class="badges-details">
+        <summary>
+          <span><i class="fa fa-trophy" aria-hidden="true"></i> Achievements</span>
+          <span class="badges-summary-meta"><span id="badges-earned-count">0/8 earned</span> <i class="fa fa-chevron-down chevron" aria-hidden="true"></i></span>
+        </summary>
         <div class="badges-row" id="badges-row"></div>
-      </div>
+      </details>
 
       <!-- Recent Expenses -->
       <div class="section-header">
@@ -443,71 +446,126 @@
 
   <!-- ─── TAB: ADD EXPENSE ─── -->
   <div id="tab-add" class="tab-content">
-    <div class="scroll-content">
+    <div class="scroll-content" id="add-scroll-content">
       <div class="form-header">
         <h2 id="add-form-title">Add Expense</h2>
         <p id="add-form-subtitle">Track where your money goes</p>
       </div>
 
-      <div class="form-card">
-        <input type="hidden" id="edit-expense-id"/>
-
-        <label class="form-label">Amount <span class="currency-badge" id="form-currency">Rs</span></label>
-        <div class="input-group large">
-          <i class="fa fa-coins"></i>
-          <input type="number" id="expense-amount" placeholder="0.00" min="0"/>
-        </div>
-
-        <label class="form-label">Category</label>
-        <div class="category-grid" id="category-grid"></div>
-
-        <label class="form-label">Date</label>
-        <div class="input-group">
-          <i class="fa fa-calendar"></i>
-          <input type="date" id="expense-date"/>
-        </div>
-
-        <label class="form-label">Note <span class="optional">optional</span></label>
-        <div class="input-group">
-          <i class="fa fa-pencil"></i>
-          <input type="text" id="expense-note" placeholder="Short description..."/>
-        </div>
-
-        <button class="btn-primary full" id="expense-submit-btn" onclick="submitExpense()">
-          <i class="fa fa-check"></i> Add Expense
+      <!-- Segmented control: only one of Expense / Income is ever visible -->
+      <div class="segmented-control" role="tablist" aria-label="Transaction type">
+        <button type="button" class="segment active" id="segment-expense" role="tab" aria-selected="true" onclick="switchAddMode('expense')">
+          <i class="fa fa-arrow-up" aria-hidden="true"></i> Expense
         </button>
-        <button class="btn-ghost full" id="expense-cancel-btn" onclick="cancelEdit()" style="display:none;">
-          Cancel Edit
+        <button type="button" class="segment" id="segment-income" role="tab" aria-selected="false" onclick="switchAddMode('income')">
+          <i class="fa fa-arrow-down" aria-hidden="true"></i> Income
         </button>
+        <div class="segment-indicator" id="segment-indicator"></div>
       </div>
 
-      <!-- ADD INCOME SECTION -->
-      <div id="income-form-section" class="form-card" style="display:none;">
-        <h3><i class="fa fa-arrow-down-circle" style="color:var(--success)"></i> Add Income</h3>
-        <div class="input-group large">
-          <i class="fa fa-coins"></i>
-          <input type="number" id="income-amount" placeholder="Amount"/>
+      <!-- ═══ EXPENSE SECTION ═══ -->
+      <div id="expense-form-section">
+        <div class="quick-add-row" id="quick-add-row" aria-label="Quick add common expenses">
+          <button type="button" class="quick-chip" onclick="quickAddShortcut('Food','☕','Coffee')">☕ Coffee</button>
+          <button type="button" class="quick-chip" onclick="quickAddShortcut('Transport','🚌','Transport')">🚌 Transport</button>
+          <button type="button" class="quick-chip" onclick="quickAddShortcut('Food','🛒','Groceries')">🛒 Groceries</button>
+          <button type="button" class="quick-chip" onclick="quickAddShortcut('Fun','🎮','Fun')">🎮 Fun</button>
         </div>
-        <label class="form-label">Source</label>
-        <div class="source-grid">
-          <button class="source-opt active" data-source="Pocket Money" onclick="selectSource(this)">👛 Pocket Money</button>
-          <button class="source-opt" data-source="Part Time Job" onclick="selectSource(this)">💼 Part Time</button>
-          <button class="source-opt" data-source="Scholarship" onclick="selectSource(this)">🎓 Scholarship</button>
-          <button class="source-opt" data-source="Gift" onclick="selectSource(this)">🎁 Gift</button>
-          <button class="source-opt" data-source="Other" onclick="selectSource(this)">📦 Other</button>
+
+        <div class="form-card">
+          <input type="hidden" id="edit-expense-id"/>
+
+          <label class="form-label">Amount <span class="currency-badge" id="form-currency">Rs</span></label>
+          <div class="input-group large">
+            <i class="fa fa-coins"></i>
+            <input type="number" id="expense-amount" placeholder="0.00" min="0"/>
+          </div>
+
+          <label class="form-label">Category</label>
+          <div class="category-grid" id="category-grid"></div>
+
+          <label class="form-label">Date</label>
+          <div class="input-group">
+            <i class="fa fa-calendar"></i>
+            <input type="date" id="expense-date"/>
+          </div>
+
+          <label class="form-label">Note <span class="optional">optional</span></label>
+          <div class="input-group">
+            <i class="fa fa-pencil"></i>
+            <input type="text" id="expense-note" placeholder="Short description..."/>
+          </div>
+
+          <button class="btn-primary full" id="expense-submit-btn" onclick="submitExpense()">
+            <i class="fa fa-check"></i> Add Expense
+          </button>
+          <button class="btn-ghost full" id="expense-cancel-btn" onclick="cancelEdit()" style="display:none;">
+            Cancel Edit
+          </button>
         </div>
-        <div class="input-group">
-          <i class="fa fa-calendar"></i>
-          <input type="date" id="income-date"/>
+      </div>
+
+      <!-- ═══ INCOME SECTION ═══ -->
+      <div id="income-form-section" class="hidden">
+        <div class="income-info-banner">
+          <i class="fa fa-circle-info" aria-hidden="true"></i>
+          <div>
+            <strong>Budget vs Income vs Expense</strong>
+            <p><b>Budget</b> is your planned monthly spending limit. <b>Income</b> is new money you receive — salary, pocket money, a gift, a refund. <b>Expense</b> is money spent. Together: <b>Available Balance = Budget + Income − Expenses</b>.</p>
+          </div>
         </div>
-        <div class="input-group">
-          <i class="fa fa-pencil"></i>
-          <input type="text" id="income-note" placeholder="Note (optional)"/>
+
+        <div class="form-card income-card">
+          <label class="form-label">Amount <span class="currency-badge income-badge" id="income-form-currency">Rs</span></label>
+          <div class="input-group large income-input">
+            <i class="fa fa-coins"></i>
+            <input type="number" id="income-amount" placeholder="0.00" min="0"/>
+          </div>
+
+          <label class="form-label">Source</label>
+          <div class="category-grid" id="source-grid">
+            <button class="cat-btn src-btn active" data-source="Pocket Money" onclick="selectSource(this)">
+              <span class="cat-icon">👛</span><span>Pocket Money</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Salary" onclick="selectSource(this)">
+              <span class="cat-icon">💼</span><span>Salary</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Scholarship" onclick="selectSource(this)">
+              <span class="cat-icon">🎓</span><span>Scholarship</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Freelancing" onclick="selectSource(this)">
+              <span class="cat-icon">💻</span><span>Freelancing</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Gift" onclick="selectSource(this)">
+              <span class="cat-icon">🎁</span><span>Gift</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Refund" onclick="selectSource(this)">
+              <span class="cat-icon">↩️</span><span>Refund</span>
+            </button>
+            <button class="cat-btn src-btn" data-source="Other" onclick="selectSource(this)">
+              <span class="cat-icon">📦</span><span>Other</span>
+            </button>
+          </div>
+
+          <label class="form-label">Date</label>
+          <div class="input-group">
+            <i class="fa fa-calendar"></i>
+            <input type="date" id="income-date"/>
+          </div>
+
+          <label class="form-label">Note <span class="optional">optional</span></label>
+          <div class="input-group">
+            <i class="fa fa-pencil"></i>
+            <input type="text" id="income-note" placeholder="Short description..."/>
+          </div>
+
+          <button class="btn-primary full income-btn" onclick="submitIncome()">
+            <i class="fa fa-plus"></i> Add Income
+          </button>
+          <button class="btn-ghost full" onclick="switchTab('dashboard')">
+            Back to Dashboard
+          </button>
         </div>
-        <button class="btn-primary full" onclick="submitIncome()">
-          <i class="fa fa-plus"></i> Add Income
-        </button>
-        <button class="btn-ghost full" onclick="closeAddIncome()">Cancel</button>
       </div>
 
     </div>
@@ -519,14 +577,19 @@
       <div class="section-header">
         <h2>History</h2>
         <div class="header-actions">
-          <button class="icon-btn" onclick="toggleSort()"><i class="fa fa-sort" id="sort-icon"></i></button>
+          <select id="sort-select" class="setting-select sort-select" onchange="setSortMode(this.value)" aria-label="Sort transactions by">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="highest">Highest amount</option>
+            <option value="lowest">Lowest amount</option>
+          </select>
         </div>
       </div>
 
       <!-- Search -->
       <div class="search-wrap">
         <i class="fa fa-search"></i>
-        <input type="text" id="history-search" placeholder="Search expenses..." oninput="renderHistory()"/>
+        <input type="text" id="history-search" placeholder="Search by category, note, amount, or date..." oninput="renderHistory()"/>
       </div>
 
       <!-- Filter chips -->
@@ -601,6 +664,52 @@
         </div>
       </div>
 
+      <!-- Category donut chart -->
+      <div class="donut-card" id="donut-card">
+        <div class="donut-svg-wrap">
+          <div id="donut-chart"></div>
+          <div class="donut-center-label">
+            <span id="donut-center-total">0</span>
+            <small>total</small>
+          </div>
+        </div>
+        <div class="donut-legend" id="donut-legend"></div>
+      </div>
+
+      <!-- Spending trend -->
+      <div class="trend-card">
+        <h3><i class="fa fa-chart-line"></i> Spending Trend</h3>
+        <div class="trend-svg-wrap" id="trend-chart"></div>
+      </div>
+
+      <!-- Monthly comparison -->
+      <div class="compare-card" id="month-compare-card">
+        <h3>This Month vs Last Month</h3>
+        <div class="compare-bars">
+          <div class="compare-item">
+            <div class="compare-bar-wrap">
+              <div class="compare-bar this-week" id="bar-this-month"></div>
+            </div>
+            <span class="amount-field" id="val-this-month">0</span>
+            <small>This Month</small>
+          </div>
+          <div class="compare-item">
+            <div class="compare-bar-wrap">
+              <div class="compare-bar last-week" id="bar-last-month"></div>
+            </div>
+            <span class="amount-field" id="val-last-month">0</span>
+            <small>Last Month</small>
+          </div>
+        </div>
+        <p class="month-compare-note" id="month-compare-note"></p>
+      </div>
+
+      <!-- Smart insights -->
+      <div class="insights-card" id="insights-card">
+        <h3><i class="fa fa-lightbulb"></i> Insights</h3>
+        <ul id="insights-list"></ul>
+      </div>
+
       <!-- Category chart -->
       <h3 class="chart-title">Spending by Category</h3>
       <div id="category-chart" class="category-chart"></div>
@@ -615,9 +724,9 @@
   <div id="tab-calendar" class="tab-content">
     <div class="scroll-content">
       <div class="cal-header">
-        <button class="icon-btn" onclick="changeCalMonth(-1)"><i class="fa fa-chevron-left"></i></button>
+        <button class="icon-btn" onclick="changeCalMonth(-1)" aria-label="Previous month"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
         <h2 id="cal-month-label">May 2026</h2>
-        <button class="icon-btn" onclick="changeCalMonth(1)"><i class="fa fa-chevron-right"></i></button>
+        <button class="icon-btn" onclick="changeCalMonth(1)" aria-label="Next month"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
       </div>
       <div class="calendar-grid" id="calendar-grid"></div>
 
@@ -625,7 +734,7 @@
       <div id="day-popup" class="day-popup hidden">
         <div class="day-popup-header">
           <span id="day-popup-title">Monday, 1 May</span>
-          <button class="icon-btn" onclick="closeDayPopup()"><i class="fa fa-times"></i></button>
+          <button class="icon-btn" onclick="closeDayPopup()" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
         <div id="day-popup-list"></div>
       </div>
